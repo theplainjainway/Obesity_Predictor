@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">User  Information Form</h1>
+        <form method="POST" class="mt-4">
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select class="form-control" id="gender" name="gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" class="form-control" id="age" name="age" required>
+            </div>
+            <div class="form-group">
+                <label for="height">Height (cm)</label>
+                <input type="number" class="form-control" id="height" name="height" required>
+            </div>
+            <div class="form-group">
+                <label for="weight">Weight (kg)</label>
+                <input type="number" class="form-control" id="weight" name="weight" required>
+            </div>
+            <div class="form-group">
+                <label for="family_history">Family History</label>
+                <input type="text" class="form-control" id="family_history" name="family_history" required>
+            </div>
+            <div class="form-group">
+                <label for="favc">FAVC (Yes/No)</label>
+                <select class="form-control" id="favc" name="favc" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fcvc">FCVC (1-5)</label>
+                <input type="number" class="form-control" id="fcvc" name="fcvc" min="1" max="5" required>
+            </div>
+            <div class="form-group">
+                <label for="ncp">NCP (1-5)</label>
+                <input type="number" class="form-control" id="ncp" name="ncp" min="1" max="5" required>
+            </div>
+            <div class="form-group">
+                <label for="caec">CAEC (Yes/No)</label>
+                <select class="form-control" id="caec" name="caec" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="smoke">Smoke (Yes/No)</label>
+                <select class="form-control" id="smoke" name="smoke" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ch2o">CH2O (1-10)</label>
+                <input type="number" class="form-control" id="ch2o" name="ch2o" min="1" max="10" required>
+            </div>
+            <div class="form-group">
+                <label for="scc">SCC (1-10)</label>
+                <input type="number" class="form-control" id="scc" name="scc" min="1" max="10" required>
+            </div>
+            <div class="form-group">
+                <label for="faf">FAF (1-10)</label>
+                <input type="number" class="form-control" id="faf" name="faf" min="1" max="10" required>
+            </div>
+            <div class="form-group">
+                <label for="tue">TUE (1-10)</label>
+                <input type="number" class="form-control" id="tue" name="tue" min="1" max="10" required>
+            </div>
+            <div class="form-group">
+                <label for="calc">CALC (1-10)</label>
+                <input type="number" class="form-control" id="calc" name="calc" min="1" max="10" required>
+            </div>
+            <div class="form-group">
+                <label for="mtrans">MTRANS (1-5)</label>
+                <input type="number" class="form-control" id="mtrans" name="mtrans" min="1" max="5" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
