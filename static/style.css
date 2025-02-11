@@ -6,6 +6,11 @@ body {
 
 }
 
+.form-control {
+    background-color: #6a11cb;
+    color: white;
+}
+
 .container {
 
     background-color: rgba(0, 0, 0, 0.7);
@@ -49,7 +54,7 @@ label {
 .table th,
 .table td {
     background-color: rgb(5, 5, 5) !important;
-    color: rgb(255, 255, 255) !important;
+    color: white !important;
 }
 
 .table {
