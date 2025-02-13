@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5">User  Information Form</h1>
+        <h1 class="mt-5">User Information Form</h1>
         <form method="POST" class="mt-4">
             <div class="form-group">
                 <label for="gender">Gender</label>
@@ -21,72 +21,109 @@
             </div>
             <div class="form-group">
                 <label for="age">Age</label>
-                <input type="number" class="form-control" id="age" name="age" required>
+                <input type="number" class="form-control" id="age" name="age" min="1" required>
             </div>
             <div class="form-group">
                 <label for="height">Height (cm)</label>
-                <input type="number" class="form-control" id="height" name="height" required>
+                <input type="number" class="form-control" id="height" name="height" min="50" max="250" required>
             </div>
             <div class="form-group">
                 <label for="weight">Weight (kg)</label>
-                <input type="number" class="form-control" id="weight" name="weight" required>
+                <input type="number" class="form-control" id="weight" name="weight" min="10" max="300" required>
             </div>
             <div class="form-group">
-                <label for="family_history">Family History</label>
-                <input type="text" class="form-control" id="family_history" name="family_history" required>
+                <label for="family_history">Family History of Obesity?</label>
+                <select class="form-control" id="family_history" name="family_history" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="favc">FAVC (Yes/No)</label>
+                <label for="favc">Frequent Consumption of High-Calorie Food?</label>
                 <select class="form-control" id="favc" name="favc" required>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="fcvc">FCVC (1-5)</label>
-                <input type="number" class="form-control" id="fcvc" name="fcvc" min="1" max="5" required>
-            </div>
-            <div class="form-group">
-                <label for="ncp">NCP (1-5)</label>
-                <input type="number" class="form-control" id="ncp" name="ncp" min="1" max="5" required>
-            </div>
-            <div class="form-group">
-                <label for="caec">CAEC (Yes/No)</label>
-                <select class="form-control" id="caec" name="caec" required>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
+                <label for="fcvc">Frequency of Vegetable Consumption (1-5)</label>
+                <select class="form-control" id="fcvc" name="fcvc" required>
+                    <option value="1">Rarely</option>
+                    <option value="2">Sometimes</option>
+                    <option value="3">Often</option>
+                    <option value="4">Very Often</option>
+                    <option value="5">Always</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="smoke">Smoke (Yes/No)</label>
+                <label for="ncp">Number of Main Meals per Day (1-5)</label>
+                <select class="form-control" id="ncp" name="ncp" required>
+                    <option value="1">1 Meal</option>
+                    <option value="2">2 Meals</option>
+                    <option value="3">3 Meals</option>
+                    <option value="4">4 Meals</option>
+                    <option value="5">5+ Meals</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="caec">Consumption of Food Between Meals?</label>
+                <select class="form-control" id="caec" name="caec" required>
+                    <option value="Never">Never</option>
+                    <option value="Sometimes">Sometimes</option>
+                    <option value="Frequently">Frequently</option>
+                    <option value="Always">Always</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="smoke">Do You Smoke?</label>
                 <select class="form-control" id="smoke" name="smoke" required>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="ch2o">CH2O (1-10)</label>
+                <label for="ch2o">Daily Water Intake (1-10 Glasses)</label>
                 <input type="number" class="form-control" id="ch2o" name="ch2o" min="1" max="10" required>
             </div>
             <div class="form-group">
-                <label for="scc">SCC (1-10)</label>
-                <input type="number" class="form-control" id="scc" name="scc" min="1" max="10" required>
+                <label for="scc">Do You Monitor Your Caloric Intake?</label>
+                <select class="form-control" id="scc" name="scc" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="faf">FAF (1-10)</label>
-                <input type="number" class="form-control" id="faf" name="faf" min="1" max="10" required>
+                <label for="faf">Frequency of Physical Activity (1-5)</label>
+                <select class="form-control" id="faf" name="faf" required>
+                    <option value="1">Rarely</option>
+                    <option value="2">Sometimes</option>
+                    <option value="3">Often</option>
+                    <option value="4">Very Often</option>
+                    <option value="5">Always</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="tue">TUE (1-10)</label>
-                <input type="number" class="form-control" id="tue" name="tue" min="1" max="10" required>
+                <label for="tue">Time Spent on Technological Devices (Hours per Day)</label>
+                <input type="number" class="form-control" id="tue" name="tue" min="0" max="24" required>
             </div>
             <div class="form-group">
-                <label for="calc">CALC (1-10)</label>
-                <input type="number" class="form-control" id="calc" name="calc" min="1" max="10" required>
+                <label for="calc">Frequency of Alcohol Consumption</label>
+                <select class="form-control" id="calc" name="calc" required>
+                    <option value="Never">Never</option>
+                    <option value="Sometimes">Sometimes</option>
+                    <option value="Frequently">Frequently</option>
+                    <option value="Always">Always</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="mtrans">MTRANS (1-5)</label>
-                <input type="number" class="form-control" id="mtrans" name="mtrans" min="1" max="5" required>
+                <label for="mtrans">Main Means of Transport</label>
+                <select class="form-control" id="mtrans" name="mtrans" required>
+                    <option value="Walking">Walking</option>
+                    <option value="Bike">Bike</option>
+                    <option value="Motorbike">Motorbike</option>
+                    <option value="Public_Transportation">Public Transportation</option>
+                    <option value="Car">Car</option>
+                </select>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
