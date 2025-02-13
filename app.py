@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request # type: ignore
 
 app = Flask(__name__)
 
@@ -13,26 +13,26 @@ def yes_no_to_int(value):
 def index():
     if request.method == 'POST':
         user_data = {
-            'gender': yes_no_to_int(request.form['gender']),
-            'age': request.form['age'],
-            'height': request.form['height'],
-            'weight': request.form['weight'],
-            'family_history': yes_no_to_int(request.form['family_history']),
-            'favc': yes_no_to_int(request.form['favc']),
-            'fcvc': request.form['fcvc'],
-            'ncp': request.form['ncp'],
-            'caec': yes_no_to_int(request.form['caec']),
-            'smoke': yes_no_to_int(request.form['smoke']),
-            'ch2o': request.form['ch2o'],
-            'scc': yes_no_to_int(request.form['scc']),
-            'faf': request.form['faf'],
-            'tue': request.form['tue'],
-            'calc': request.form['calc'],
-            'mtrans': request.form['mtrans'],
+            'Gender': request.form['gender'],
+            'Age': request.form['age'],
+            'Height': request.form['height'],
+            'Weight': request.form['weight'],
+            'family_history': request.form['family_history'],
+            'FAVC': request.form['favc'],
+            'FCVC': request.form['fcvc'],
+            'NCP': request.form['ncp'],
+            'CAEC': request.form['caec'],
+            'SMOKE': request.form['smoke'],
+            'CH2O': request.form['ch2o'],
+            'SCC': request.form['scc'],
+            'FAF': request.form['faf'],
+            'TUE': request.form['tue'],
+            'CALC': request.form['calc'],
+            'MTRANS': request.form['mtrans'],
         }
 
         # Send request to model.py
-        response = requests.post(MODEL_API_URL, json={"features": list(user_data.values())})
+        response = requests.post(MODEL_API_URL, json={"features": user_data})  # Fix: send user_data as dictionary
         
         if response.status_code == 200:
             prediction = response.json().get("obesity_class", "Unknown")

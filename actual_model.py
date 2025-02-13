@@ -3,7 +3,6 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
-from flask import Flask, request, jsonify
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.ensemble import RandomForestClassifier
@@ -61,7 +60,7 @@ X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, 
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(X_train, y_train)
 
-# Save the model and scaler
+# Save the model, scaler, and label encoders
 joblib.dump(clf, "obesity_model.pkl")
 joblib.dump(scaler, "scaler.pkl")
 joblib.dump(label_encoders, "label_encoders.pkl")
@@ -71,24 +70,3 @@ y_pred = clf.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 print("Classification Report:\n", classification_report(y_test, y_pred))
-
-# Flask API setup
-app = Flask(__name__)
-
-@app.route('/predict', methods=['POST'])
-def predict():
-    data = request.json
-    features = np.array(data["features"]).reshape(1, -1)
-    
-    # Load model and scaler
-    model = joblib.load("obesity_model.pkl")
-    scaler = joblib.load("scaler.pkl")
-    
-    # Scale features
-    scaled_features = scaler.transform(features)
-    prediction = model.predict(scaled_features)
-    
-    return jsonify({"obesity_class": int(prediction[0])})
-
-if __name__ == '__main__':
-    app.run(debug=True)

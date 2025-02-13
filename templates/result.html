@@ -18,15 +18,39 @@
             background-color: #d4edda;
             border: 1px solid #c3e6cb;
         }
+        .description {
+            font-size: 18px;
+            font-style: italic;
+            color: #155724;
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
     </style>
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Obesity Prediction Result</h1>
 
+        {% set obesity_explanations = {
+            0: "Underweight: Your weight is lower than the normal range. Consider a balanced diet to gain healthy weight.",
+            1: "Normal Weight: Your weight is within the healthy range. Maintain a balanced diet and regular exercise.",
+            2: "Overweight Level 1: You are slightly overweight. Consider a balanced diet and regular physical activity.",
+            3: "Overweight Level 2: You are overweight. Increased physical activity and a controlled diet are recommended.",
+            4: "Obesity Type 1: You are in the early stages of obesity. Focus on a structured exercise plan and healthy eating.",
+            5: "Obesity Type 2: Your weight is significantly above the healthy range. Consult a healthcare professional for guidance.",
+            6: "Obesity Type 3: You have severe obesity. Professional medical advice is strongly recommended for long-term health."
+        } %}
+
         {% if data.get('obesity_class') is not none %}
         <div class="prediction-result">
             Predicted Obesity Class: <strong>{{ data['obesity_class'] }}</strong>
+        </div>
+        <div class="description">
+            {{ obesity_explanations.get(data['obesity_class'], "Unknown classification.") }}
         </div>
         {% else %}
         <div class="alert alert-danger text-center">
