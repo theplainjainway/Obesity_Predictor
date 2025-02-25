@@ -1,49 +1,80 @@
 from flask import Flask, request, jsonify
 import joblib
 import numpy as np
+import pandas as pd
+import logging
 
 app = Flask(__name__)
 
-# Load model and preprocessing tools
-model = joblib.load("obesity_model.pkl")
-scaler = joblib.load("scaler.pkl")
-label_encoders = joblib.load("label_encoders.pkl")  # Load label encoders for categorical features
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
 
-# Define expected feature columns
+# Load model and preprocessing tools
+model = joblib.load("obesity_model_optimized.pkl")
+scaler = joblib.load("scaler.pkl")
+label_encoders = joblib.load("label_encoders.pkl")
+
+# Define the expected feature order (must match training)
+expected_feature_order = [
+    "Gender", "Age", "Height", "Weight", "family_history", "FAVC", "FCVC", "NCP",
+    "CAEC", "SMOKE", "CH2O", "SCC", "FAF", "TUE", "CALC", "MTRANS"
+]
+
+# Feature type separation
 categorical_cols = ["Gender", "family_history", "FAVC", "CAEC", "SMOKE", "SCC", "CALC", "MTRANS"]
-numerical_cols = ["Age", "Height", "Weight", "FCVC", "NCP", "CH2O", "FAF", "TUE"]  # Ensure correct list
+numerical_cols = ["Age", "Height", "Weight", "FCVC", "NCP", "CH2O", "FAF", "TUE"]
 
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json
-    user_features = data["features"]
+    user_features = data.get("features", {})
+
+    logging.info("===== Incoming Request =====")
+    logging.info("Raw Input Data: %s", user_features)
 
     try:
-        processed_features = []
-        
+        # Convert input to DataFrame
+        input_data = pd.DataFrame([user_features])
+
         # Encode categorical features
         for col in categorical_cols:
-            if user_features[col] in label_encoders[col].classes_:
-                encoded_value = label_encoders[col].transform([user_features[col]])[0]
+            if col in input_data:
+                try:
+                    input_data[col] = label_encoders[col].transform(input_data[col])
+                except ValueError:
+                    logging.warning(f"Unseen category detected in {col}, replacing with most common value.")
+                    input_data[col] = label_encoders[col].transform([label_encoders[col].classes_[0]])[0]
             else:
-                encoded_value = label_encoders[col].transform([label_encoders[col].classes_[0]])[0]  # Default to first class
-            processed_features.append(encoded_value)
-        
-        # Append numerical features directly
+                raise ValueError(f"Missing required categorical feature: {col}")
+
+        # Convert numerical features
         for col in numerical_cols:
-            processed_features.append(float(user_features[col]))  # Ensure float type
-        
-        # Convert to NumPy array and scale
-        features = np.array(processed_features).reshape(1, -1)
-        scaled_features = scaler.transform(features)  # Ensure correct feature count
-        
+            if col in input_data:
+                input_data[col] = input_data[col].astype(float)
+            else:
+                raise ValueError(f"Missing required numerical feature: {col}")
+
+        # Ensure correct feature order
+        input_data = input_data[expected_feature_order]
+        logging.info("Final Processed Features (Before Scaling): \n%s", input_data)
+
+        # Apply MinMaxScaler (Same as test.py)
+        input_data_scaled = scaler.transform(input_data)
+
+        logging.info("Scaled Features: %s", input_data_scaled)
+
         # Predict obesity class
-        prediction = model.predict(scaled_features)
-        
-        return jsonify({"obesity_class": int(prediction[0])})
+        prediction = model.predict(input_data_scaled)
+        predicted_label = label_encoders["Obesity"].inverse_transform(prediction)[0]
+
+        logging.info("Raw Prediction: %s", prediction)
+        logging.info("Final Predicted Obesity Class: %s", predicted_label)
+
+        return jsonify({"obesity_class": predicted_label})
 
     except Exception as e:
+        logging.error("Error during prediction: %s", str(e))
         return jsonify({"error": str(e)})
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True, port=5001)

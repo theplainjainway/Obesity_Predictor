@@ -3,10 +3,11 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
+from imblearn.over_sampling import SMOTE
 
 # Load dataset
 file_path = "Obesity prediction.csv"
@@ -49,24 +50,49 @@ for col in categorical_cols:
 X = df.drop(columns=["Obesity"])
 y = df["Obesity"]
 
-# Normalize numerical features
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
+# Address class imbalance
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(X, y)
 
 # Train-test split
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X_resampled, y_resampled, test_size=0.2, random_state=42)
 
-# Train Random Forest Classifier
-clf = RandomForestClassifier(n_estimators=100, random_state=42)
-clf.fit(X_train, y_train)
+# Normalize numerical features
+scaler = MinMaxScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
 
-# Save the model, scaler, and label encoders
-joblib.dump(clf, "obesity_model.pkl")
+# Hyperparameter tuning using GridSearchCV
+param_grid = {
+    'n_estimators': [100, 200, 300],
+    'max_depth': [None, 10, 20],
+    'min_samples_split': [2, 5, 10]
+}
+
+grid_search = GridSearchCV(RandomForestClassifier(class_weight="balanced", random_state=42), param_grid, cv=5)
+grid_search.fit(X_train, y_train)
+
+best_clf = grid_search.best_estimator_
+
+# Save the best model, scaler, and label encoders
+joblib.dump(best_clf, "obesity_model_optimized.pkl")
 joblib.dump(scaler, "scaler.pkl")
 joblib.dump(label_encoders, "label_encoders.pkl")
 
 # Predictions and evaluation
-y_pred = clf.predict(X_test)
+y_pred = best_clf.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 print("Classification Report:\n", classification_report(y_test, y_pred))
+
+# Feature importance analysis
+importances = best_clf.feature_importances_
+feature_names = X.columns
+plt.figure(figsize=(10, 5))
+sns.barplot(x=importances, y=feature_names)
+plt.title("Feature Importance")
+#plt.show()
+
+# Check label decoding
+decoded_predictions = label_encoders["Obesity"].inverse_transform(y_pred)
+print("Decoded Predictions:", decoded_predictions)

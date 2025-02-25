@@ -1,5 +1,6 @@
 import requests
 from flask import Flask, render_template, request # type: ignore
+import json
 
 app = Flask(__name__)
 
@@ -9,38 +10,43 @@ MODEL_API_URL = "http://127.0.0.1:5001/predict"  # Ensure model.py runs on a dif
 def yes_no_to_int(value):
     return 1 if value.lower() == "yes" else 0
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         user_data = {
-            'Gender': request.form['gender'],
-            'Age': request.form['age'],
-            'Height': request.form['height'],
-            'Weight': request.form['weight'],
-            'family_history': request.form['family_history'],
-            'FAVC': request.form['favc'],
-            'FCVC': request.form['fcvc'],
-            'NCP': request.form['ncp'],
-            'CAEC': request.form['caec'],
-            'SMOKE': request.form['smoke'],
-            'CH2O': request.form['ch2o'],
-            'SCC': request.form['scc'],
-            'FAF': request.form['faf'],
-            'TUE': request.form['tue'],
-            'CALC': request.form['calc'],
-            'MTRANS': request.form['mtrans'],
+            'Gender': request.form.get('gender'),
+            'Age': int(request.form.get('age', 0)),
+            'Height': float(request.form.get('height', 0.0)),
+            'Weight': float(request.form.get('weight', 0.0)),
+            'family_history': request.form.get('family_history'),
+            'FAVC': request.form.get('favc'),
+            'FCVC': int(request.form.get('fcvc', 0)),
+            'NCP': int(request.form.get('ncp', 0)),
+            'CAEC': request.form.get('caec'),
+            'SMOKE': request.form.get('smoke'),
+            'CH2O': int(request.form.get('ch2o', 0)),
+            'SCC': request.form.get('scc'),
+            'FAF': int(request.form.get('faf', 0)),
+            'TUE': int(request.form.get('tue', 0)),
+            'CALC': request.form.get('calc'),
+            'MTRANS': request.form.get('mtrans'),
         }
 
-        # Send request to model.py
-        response = requests.post(MODEL_API_URL, json={"features": user_data})  # Fix: send user_data as dictionary
-        
+        print("Received Data:", json.dumps(user_data, indent=4))  # Debugging
+
+        response = requests.post(MODEL_API_URL, json={"features": user_data})
+                
         if response.status_code == 200:
             prediction = response.json().get("obesity_class", "Unknown")
-            user_data['obesity_class'] = prediction
 
-        return render_template('result.html', data=user_data)
+            user_data['obesity_class'] = prediction
+            print(f"Debug - Predicted Obesity Class: {prediction} ({type(prediction)})")
+
+            return render_template('result.html', data=user_data)
     
     return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
