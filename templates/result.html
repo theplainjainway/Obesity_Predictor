@@ -36,13 +36,13 @@
         <h1 class="text-center">Obesity Prediction Result</h1>
 
         {% set obesity_explanations = {
-            0: "Underweight: Your weight is lower than the normal range. Consider a balanced diet to gain healthy weight.",
-            1: "Normal Weight: Your weight is within the healthy range. Maintain a balanced diet and regular exercise.",
-            2: "Overweight Level 1: You are slightly overweight. Consider a balanced diet and regular physical activity.",
-            3: "Overweight Level 2: You are overweight. Increased physical activity and a controlled diet are recommended.",
-            4: "Obesity Type 1: You are in the early stages of obesity. Focus on a structured exercise plan and healthy eating.",
-            5: "Obesity Type 2: Your weight is significantly above the healthy range. Consult a healthcare professional for guidance.",
-            6: "Obesity Type 3: You have severe obesity. Professional medical advice is strongly recommended for long-term health."
+            "Insufficient_Weight": "Underweight: Your weight is lower than the normal range. Consider a balanced diet to gain healthy weight.",
+            "Normal_Weight": "Normal Weight: Your weight is within the healthy range. Maintain a balanced diet and regular exercise.",
+            "Overweight_Level_I": "Overweight Level 1: You are slightly overweight. Consider a balanced diet and regular physical activity.",
+            "Overweight_Level_II": "Overweight Level 2: You are overweight. Increased physical activity and a controlled diet are recommended.",
+            "Obesity_Type_I": "Obesity Type 1: You are in the early stages of obesity. Focus on a structured exercise plan and healthy eating.",
+            "Obesity_Type_II": "Obesity Type 2: Your weight is significantly above the healthy range. Consult a healthcare professional for guidance.",
+            "Obesity_Type_III": "Obesity Type 3: You have severe obesity. Professional medical advice is strongly recommended for long-term health."
         } %}
 
         {% if data.get('obesity_class') is not none %}
