@@ -31,6 +31,9 @@ def predict():
 
     logging.info("===== Incoming Request =====")
     logging.info("Raw Input Data: %s", user_features)
+    # Get the mapping for MTRANS
+    mtrans_mapping = {index: category for index, category in enumerate(label_encoders["MTRANS"].classes_)}
+    print("MTRANS Encoding Mapping:", mtrans_mapping)
 
     try:
         # Convert input to DataFrame

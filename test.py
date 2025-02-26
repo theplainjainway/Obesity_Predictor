@@ -40,3 +40,21 @@ prediction = model.predict(input_data_scaled)
 predicted_label = label_encoders["Obesity"].inverse_transform(prediction)
 
 print("Predicted Obesity Level:", predicted_label[0])
+
+# Load the saved label encoders
+label_encoders = joblib.load("label_encoders.pkl")
+
+# Print mappings for all categorical features
+for feature, encoder in label_encoders.items():
+    mapping = {index: category for index, category in enumerate(encoder.classes_)}
+    print(f"{feature} Encoding Mapping: {mapping}\n")
+
+# Load dataset
+file_path = "Obesity prediction.csv"
+df = pd.read_csv(file_path)
+
+# Print unique values in ascending order
+print("FCVC Unique Values:", sorted(df["FCVC"].unique()))
+print("NCP Unique Values:", sorted(df["NCP"].unique()))
+print("FAF Unique Values:", sorted(df["FAF"].unique()))
+
