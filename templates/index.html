@@ -14,9 +14,8 @@
             <div class="form-group">
                 <label for="gender">Gender</label>
                 <select class="form-control" id="gender" name="gender" required>
-                    <option value="Male">Male</option>
                     <option value="Female">Female</option>
-                    <option value="Other">Other</option>
+                    <option value="Male">Male</option>
                 </select>
             </div>
             <div class="form-group">
@@ -35,41 +34,29 @@
             <div class="form-group">
                 <label for="family_history">Family History of Obesity?</label>
                 <select class="form-control" id="family_history" name="family_history" required>
-                    <option value="yes">Yes</option>
                     <option value="no">No</option>
+                    <option value="yes">Yes</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="favc">Frequent Consumption of High-Calorie Food?</label>
                 <select class="form-control" id="favc" name="favc" required>
-                    <option value="yes">Yes</option>
                     <option value="no">No</option>
+                    <option value="yes">Yes</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="fcvc">Frequency of Vegetable Consumption (1-5)</label>
-                <select class="form-control" id="fcvc" name="fcvc" required>
-                    <option value="1">Rarely</option>
-                    <option value="2">Sometimes</option>
-                    <option value="3">Often</option>
-                    <option value="4">Very Often</option>
-                    <option value="5">Always</option>
-                </select>
+                <label for="fcvc">Frequency of Vegetable Consumption (1-3)</label>
+                <input type="number" class="form-control" id="fcvc" name="fcvc" min="1.0" max="3.0" step="0.01" required>
             </div>
             <div class="form-group">
-                <label for="ncp">Number of Main Meals per Day (1-5)</label>
-                <select class="form-control" id="ncp" name="ncp" required>
-                    <option value="1">1 Meal</option>
-                    <option value="2">2 Meals</option>
-                    <option value="3">3 Meals</option>
-                    <option value="4">4 Meals</option>
-                    <option value="5">5+ Meals</option>
-                </select>
+                <label for="ncp">Number of Main Meals per Day (1-4)</label>
+                <input type="number" class="form-control" id="ncp" name="ncp" min="1.0" max="4.0" step="0.01" required>
             </div>
             <div class="form-group">
                 <label for="caec">Consumption of Food Between Meals?</label>
                 <select class="form-control" id="caec" name="caec" required>
-                    <option value="Never">Never</option>
+                    <option value="no">Never</option>
                     <option value="Sometimes">Sometimes</option>
                     <option value="Frequently">Frequently</option>
                     <option value="Always">Always</option>
@@ -78,8 +65,8 @@
             <div class="form-group">
                 <label for="smoke">Do You Smoke?</label>
                 <select class="form-control" id="smoke" name="smoke" required>
-                    <option value="yes">Yes</option>
                     <option value="no">No</option>
+                    <option value="yes">Yes</option>
                 </select>
             </div>
             <div class="form-group">
@@ -89,19 +76,13 @@
             <div class="form-group">
                 <label for="scc">Do You Monitor Your Caloric Intake?</label>
                 <select class="form-control" id="scc" name="scc" required>
-                    <option value="yes">Yes</option>
                     <option value="no">No</option>
+                    <option value="yes">Yes</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="faf">Frequency of Physical Activity (1-5)</label>
-                <select class="form-control" id="faf" name="faf" required>
-                    <option value="1">Rarely</option>
-                    <option value="2">Sometimes</option>
-                    <option value="3">Often</option>
-                    <option value="4">Very Often</option>
-                    <option value="5">Always</option>
-                </select>
+                <label for="faf">Frequency of Physical Activity (0-3)</label>
+                <input type="number" class="form-control" id="faf" name="faf" min="0.0" max="3.0" step="0.01" required>
             </div>
             <div class="form-group">
                 <label for="tue">Time Spent on Technological Devices (Hours per Day)</label>
@@ -110,7 +91,7 @@
             <div class="form-group">
                 <label for="calc">Frequency of Alcohol Consumption</label>
                 <select class="form-control" id="calc" name="calc" required>
-                    <option value="Never">Never</option>
+                    <option value="no">Never</option>
                     <option value="Sometimes">Sometimes</option>
                     <option value="Frequently">Frequently</option>
                     <option value="Always">Always</option>
@@ -119,11 +100,11 @@
             <div class="form-group">
                 <label for="mtrans">Main Means of Transport</label>
                 <select class="form-control" id="mtrans" name="mtrans" required>
-                    <option value="Walking">Walking</option>
+                    <option value="Automobile">Automobile</option>
                     <option value="Bike">Bike</option>
                     <option value="Motorbike">Motorbike</option>
                     <option value="Public_Transportation">Public Transportation</option>
-                    <option value="Car">Car</option>
+                    <option value="Walking">Walking</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
