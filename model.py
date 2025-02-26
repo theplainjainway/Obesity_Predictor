@@ -11,7 +11,6 @@ logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %
 
 # Load model and preprocessing tools
 model = joblib.load("obesity_model_optimized.pkl")
-scaler = joblib.load("scaler.pkl")
 label_encoders = joblib.load("label_encoders.pkl")
 
 # Define the expected feature order (must match training)
@@ -61,13 +60,9 @@ def predict():
         input_data = input_data[expected_feature_order]
         logging.info("Final Processed Features (Before Scaling): \n%s", input_data)
 
-        # Apply MinMaxScaler (Same as test.py)
-        input_data_scaled = scaler.transform(input_data)
-
-        logging.info("Scaled Features: %s", input_data_scaled)
 
         # Predict obesity class
-        prediction = model.predict(input_data_scaled)
+        prediction = model.predict(input_data) #scaler isn't used now
         predicted_label = label_encoders["Obesity"].inverse_transform(prediction)[0]
 
         logging.info("Raw Prediction: %s", prediction)

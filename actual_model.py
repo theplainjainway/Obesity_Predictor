@@ -4,10 +4,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
+from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
-from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import RandomOverSampler
 
 # Load dataset
 file_path = "Obesity prediction.csv"
@@ -51,16 +51,12 @@ X = df.drop(columns=["Obesity"])
 y = df["Obesity"]
 
 # Address class imbalance
-smote = SMOTE(random_state=42)
-X_resampled, y_resampled = smote.fit_resample(X, y)
+ros = RandomOverSampler(random_state=42)
+X_resampled, y_resampled = ros.fit_resample(X, y)
+
 
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X_resampled, y_resampled, test_size=0.2, random_state=42)
-
-# Normalize numerical features
-scaler = MinMaxScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
 
 # Hyperparameter tuning using GridSearchCV
 param_grid = {
@@ -76,7 +72,6 @@ best_clf = grid_search.best_estimator_
 
 # Save the best model, scaler, and label encoders
 joblib.dump(best_clf, "obesity_model_optimized.pkl")
-joblib.dump(scaler, "scaler.pkl")
 joblib.dump(label_encoders, "label_encoders.pkl")
 
 # Predictions and evaluation
