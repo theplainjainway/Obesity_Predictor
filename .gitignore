@@ -32,3 +32,5 @@ pip-wheel-metadata/
 
 # MacOS files
 .DS_Store
+
+#removed env by command git rm -r --cached env
