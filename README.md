@@ -1,6 +1,37 @@
-Create two bash terminals<br>
-Execute model.py by<br>
-<code>python model.py</code><br>
-On the second terminal, run app.py by<br>
-<code>python app.py</code><br>
-Follow the local host link of app.py
+<h1>🚀 Project Setup Guide</h1>
+
+<h2>📌 Running the Project</h2>
+
+<p>To set up and run the project, open a terminal and execute:</p>
+
+<pre><code>python run.py</code></pre>
+
+<p>This script will:</p>
+<ul>
+  <li>Create a new <b>Python virtual environment</b>.</li>
+  <li>Install all required dependencies.</li>
+</ul>
+
+<hr>
+
+<h2>📦 Dependencies Installed</h2>
+
+<p>The following libraries will be installed automatically:</p>
+<ul>
+  <li><b>Flask</b> – Web framework</li>
+  <li><b>Joblib</b> – Model serialization</li>
+  <li><b>NumPy</b> – Numerical computing</li>
+  <li><b>Pandas</b> – Data manipulation</li>
+  <li><b>Scikit-learn</b> – Machine learning tools</li>
+  <li><b>Requests</b> – HTTP requests handling</li>
+</ul>
+
+<hr>
+
+<h2>🌍 Accessing the Application</h2>
+
+<p>Once the local server is up and running, open your browser and navigate to:</p>
+
+<p>🔗 <a href="http://localhost:5000/" target="_blank"><b>http://localhost:5000/</b></a></p>
+
+<p>Enjoy your project! 🚀</p>
