@@ -40,7 +40,7 @@ def install_dependencies():
     """Installs required dependencies inside the virtual environment."""
     pip_path = get_pip_path()
     print("Installing dependencies...")
-    run_command([pip_path, "install", "flask", "joblib", "numpy", "pandas", "scikit-learn", "requests"])
+    run_command([pip_path, "install", "flask", "joblib", "numpy", "pandas", "scikit-learn", "requests", "python-dotenv", "google-generativeai"])
 
 def set_execution_policy():
     """Sets execution policy for PowerShell (Windows only, scope: Process)."""

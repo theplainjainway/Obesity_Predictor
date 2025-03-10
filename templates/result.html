@@ -18,7 +18,7 @@
             background-color: #d4edda;
             border: 1px solid #c3e6cb;
         }
-        .description {
+        .description, .ai-plan {
             font-size: 18px;
             font-style: italic;
             color: #155724;
@@ -28,6 +28,13 @@
             border-radius: 5px;
             background-color: #d4edda;
             border: 1px solid #c3e6cb;
+        }
+        .ai-plan h3 {
+            font-size: 22px;
+            color: #155724;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -52,25 +59,43 @@
         <div class="description">
             {{ obesity_explanations.get(data['obesity_class'], "Unknown classification.") }}
         </div>
+
+        <!-- Display AI-generated Diet & Workout Plans -->
+        {% if diet or workout %}
+        <div class="ai-plan mt-4">
+            <h3>Personalized Diet & Workout Plan</h3>
+            
+            {% if diet %}
+            <strong>Diet Plan:</strong>
+            <ul>
+                {% for meal, details in diet.items() %}
+                <li><strong>{{ meal.title() }}:</strong> {{ details }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p><strong>Diet Plan:</strong> No diet plan available.</p>
+            {% endif %}
+            
+            {% if workout %}
+            <strong>Workout Plan:</strong>
+            <ul>
+                {% for exercise, details in workout.items() %}
+                <li><strong>{{ exercise.title() }}:</strong> {{ details }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p><strong>Workout Plan:</strong> No workout plan available.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
         {% else %}
         <div class="alert alert-danger text-center">
             Prediction failed. Please try again.
         </div>
         {% endif %}
 
-        <h2 class="mt-4">Submitted Information</h2>
-        <table class="table table-bordered mt-3">
-            <tbody>
-                {% for key, value in data.items() if key != 'obesity_class' %}
-                <tr>
-                    <th>{{ key.replace('_', ' ').title() }}</th>
-                    <td>{{ value }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <a href="/" class="btn btn-primary">Go Back</a>
+        <a href="/" class="btn btn-primary mt-4">Go Back</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

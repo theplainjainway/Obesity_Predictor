@@ -3,6 +3,13 @@ import joblib
 import numpy as np
 import pandas as pd
 import logging
+import os
+from dotenv import load_dotenv
+from diet_workout import generate_diet_workout
+
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -30,9 +37,6 @@ def predict():
 
     logging.info("===== Incoming Request =====")
     logging.info("Raw Input Data: %s", user_features)
-    # Get the mapping for MTRANS
-    mtrans_mapping = {index: category for index, category in enumerate(label_encoders["MTRANS"].classes_)}
-    print("MTRANS Encoding Mapping:", mtrans_mapping)
 
     try:
         # Convert input to DataFrame
@@ -60,9 +64,8 @@ def predict():
         input_data = input_data[expected_feature_order]
         logging.info("Final Processed Features (Before Scaling): \n%s", input_data)
 
-
         # Predict obesity class
-        prediction = model.predict(input_data) #scaler isn't used now
+        prediction = model.predict(input_data)
         predicted_label = label_encoders["Obesity"].inverse_transform(prediction)[0]
 
         logging.info("Raw Prediction: %s", prediction)
@@ -73,6 +76,24 @@ def predict():
     except Exception as e:
         logging.error("Error during prediction: %s", str(e))
         return jsonify({"error": str(e)})
+
+@app.route('/generate-plan', methods=['POST'])
+def generate_plan():
+    data = request.json
+    obesity_class = data.get("obesity_class")
+    user_features = data.get("user_features", {})
+
+    if not obesity_class or not user_features:
+        return jsonify({"error": "Obesity class and user features are required"}), 400
+
+    try:
+        plan = generate_diet_workout(user_features, obesity_class)
+        return jsonify(plan)
+
+    except Exception as e:
+        logging.error(f"Error generating plan: {str(e)}")
+        return jsonify({"error": "Failed to generate a plan"}), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
