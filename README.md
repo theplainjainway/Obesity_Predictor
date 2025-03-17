@@ -14,6 +14,13 @@
 
 <hr>
 
+<h2>🔑 Setting Up Environment Variables</h2>
+    <p>Before running the project, create a <code>.env</code> file in the root directory and add your <b>Gemini API key</b>:</p>
+    <pre><code>GEMINI_API_KEY=your_api_key</code></pre>
+    <p>Make sure to replace <code>your_api_key</code> with your actual API key.</p>
+
+<hr>
+
 <h2>📦 Dependencies Installed</h2>
 
 <p>The following libraries will be installed automatically:</p>
